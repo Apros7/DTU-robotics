@@ -1,0 +1,1 @@
+/dev/serial/by-id/usb-Xevelabs_USB2AX_85831303835351F052B0-if00

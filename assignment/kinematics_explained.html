@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>kinematics_explained</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">body {
+font-family: "Liberation Serif", "Nimbus Roman", Georgia, serif;
+font-size: 18px;
+line-height: 1.55;
+max-width: 46rem;
+margin: 2.5rem auto;
+padding: 0 1.5rem 4rem;
+color: #1c1c1c;
+background: #fafaf8;
+}
+h1, h2, h3 { font-family: "Liberation Sans", "Nimbus Sans", sans-serif; line-height: 1.25; }
+h1 { font-size: 1.8rem; margin-top: 0; }
+h2 { font-size: 1.35rem; margin-top: 2.2rem; border-top: 1px solid #ddd; padding-top: 1.2rem; }
+code { font-family: "Liberation Mono", monospace; font-size: 0.92em; background: #eee; padding: 0.05em 0.3em; }
+pre { background: #f0f0ec; padding: 0.8rem 1rem; overflow-x: auto; }
+table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+th, td { border: 1px solid #ccc; padding: 0.35rem 0.55rem; vertical-align: top; }
+th { background: #f3f3f0; }
+mjx-container, math { font-size: 1.05em; }
+</style>
+</head>
+<body>
+<h1 id="walkthrough-problems-1-and-2">Walkthrough: Problems 1 and 2</h1>
+<p>Read this from the top. The other two notes are the compact version
+of the same work. This one is the thought process.</p>
+<p>Two questions:</p>
+<ol type="1">
+<li><strong>Problem 1.</strong> The motors are at known angles. Where is
+the stylus tip, and which way does the stylus point?</li>
+<li><strong>Problem 2.</strong> The tip must go to a known point, and
+the stylus must have a known steepness. Which motor angles do that?</li>
+</ol>
+<p>Problem 1 builds a formula from angles to pose. Problem 2 runs that
+formula backwards.</p>
+<hr />
+<h2 id="what-the-drawing-is">1. What the drawing is</h2>
+<p>Figure 1 is the robot standing straight up. Four motors, one above
+the other. A stylus (a pen tip) sits at the top. A camera sits on a
+bracket next to it.</p>
+<p>A <strong>frame</strong> is a point with three arrows glued to it.
+The arrows are always at right angles and follow the right-hand rule:
+point your right-hand fingers along red, curl them toward green, and
+your thumb points along blue.</p>
+<table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Arrow</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>red</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math></td>
+<td>“forward” of that frame</td>
+</tr>
+<tr>
+<td>green</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math></td>
+<td>“left” of that frame, once
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
+are fixed</td>
+</tr>
+<tr>
+<td>blue</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math></td>
+<td>the axis you spin around</td>
+</tr>
+</tbody>
+</table>
+<p>Frame {0} is glued to the table. It never moves. In the drawing:</p>
+<ul>
+<li>red
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>0</mn></msub><annotation encoding="application/x-tex">x_0</annotation></semantics></math>
+points to the right</li>
+<li>blue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>0</mn></msub><annotation encoding="application/x-tex">z_0</annotation></semantics></math>
+points up</li>
+<li>green
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mn>0</mn></msub><annotation encoding="application/x-tex">y_0</annotation></semantics></math>
+points into the page, away from you</li>
+</ul>
+<p>Every later position is measured in this frame. “The tip is at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>286</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 0, 286)</annotation></semantics></math>
+mm” means: not to the right, not into the page, 286 mm up from frame
+{0}.</p>
+<p>The other frames ride on the moving parts:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Frame</th>
+<th>Glued to</th>
+<th>In the drawing, red
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>
+points</th>
+<th>Blue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
+points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{1}</td>
+<td>just above the base motor</td>
+<td>right</td>
+<td>toward you</td>
+</tr>
+<tr>
+<td>{2}</td>
+<td>just above the shoulder motor</td>
+<td>up</td>
+<td>toward you</td>
+</tr>
+<tr>
+<td>{3}</td>
+<td>just above the elbow motor</td>
+<td>up</td>
+<td>toward you</td>
+</tr>
+<tr>
+<td>{4}</td>
+<td>the stylus tip</td>
+<td>up</td>
+<td>toward you</td>
+</tr>
+<tr>
+<td>{5}</td>
+<td>the camera</td>
+<td>up</td>
+<td>toward you</td>
+</tr>
+</tbody>
+</table>
+<p>Frames {2}, {3}, {4}, and {5} look identical in the drawing because
+the arm is straight. They are still different points, stacked along the
+arm.</p>
+<p>Lengths along that stack:</p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+<th>Length</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{0}</td>
+<td>{1}</td>
+<td>50 mm</td>
+</tr>
+<tr>
+<td>{1}</td>
+<td>{2}</td>
+<td>93 mm</td>
+</tr>
+<tr>
+<td>{2}</td>
+<td>{3}</td>
+<td>93 mm</td>
+</tr>
+<tr>
+<td>{3}</td>
+<td>{4}</td>
+<td>50 mm</td>
+</tr>
+</tbody>
+</table>
+<p>The camera {5} is 45 mm to the left of the stylus tip, and 35 mm
+above frame {3}. Frame {4} is 50 mm above frame {3}, so the camera is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mo>−</mo><mn>35</mn><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">50 - 35 = 15</annotation></semantics></math>
+mm below the stylus tip.</p>
+<p>Frame {5} is bolted to the same piece as the stylus. It has no motor
+of its own.</p>
+<hr />
+<h2 id="what-a-pose-matrix-is-storing">2. What a pose matrix is
+storing</h2>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_4^0</annotation></semantics></math>
+is one 4×4 table. The name means “frame 4, described by someone sitting
+in frame 0”.</p>
+<p>It answers: I measured a point in stylus coordinates. Where is that
+point in base coordinates?</p>
+<p>You do not have to derive the shape. You only have to be able to read
+one. The bottom row is always
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mspace width="0.222em"></mspace><mn>0</mn><mspace width="0.222em"></mspace><mn>0</mn><mspace width="0.222em"></mspace><mn>1</mn></mrow><annotation encoding="application/x-tex">0\ 0\ 0\ 1</annotation></semantics></math>.
+The useful part is the top three rows:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Column 1</th>
+<th>Column 2</th>
+<th>Column 3</th>
+<th>Column 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stylus red arrow, written in base coordinates</td>
+<td>stylus green arrow</td>
+<td>stylus blue arrow</td>
+<td>stylus origin, in base coordinates</td>
+</tr>
+</tbody>
+</table>
+<p>Column 4 is the position of the tip. Column 1 is the direction the
+stylus points, because the stylus red arrow is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>4</mn></msub><annotation encoding="application/x-tex">x_4</annotation></semantics></math>.</p>
+<p>A short way to write cos and sin, used everywhere below:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>1</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><msub><mi>q</mi><mn>1</mn></msub><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>s</mi><mn>1</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><msub><mi>q</mi><mn>1</mn></msub><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>c</mi><mn>23</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>q</mi><mn>2</mn></msub><mo>+</mo><msub><mi>q</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="1.0em"></mspace><msub><mi>s</mi><mn>234</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>q</mi><mn>2</mn></msub><mo>+</mo><msub><mi>q</mi><mn>3</mn></msub><mo>+</mo><msub><mi>q</mi><mn>4</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+c_1 = \cos q_1, \quad s_1 = \sin q_1, \quad c_{23} = \cos(q_2+q_3), \quad s_{234} = \sin(q_2+q_3+q_4).
+</annotation></semantics></math></p>
+<hr />
+<h2 id="why-there-are-four-small-matrices">3. Why there are four small
+matrices</h2>
+<p>The stylus is four motors away from the table. Writing
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_4^0</annotation></semantics></math>
+in one guess is miserable. The manageable version is:</p>
+<ul>
+<li>describe how frame {1} sits relative to frame {0}</li>
+<li>describe how frame {2} sits relative to frame {1}</li>
+<li>same for {3} relative to {2}, and {4} relative to {3}</li>
+</ul>
+<p>Each of those is a small matrix. Stacking them is matrix
+multiplication, from the base outward:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><mo>=</mo><msubsup><mi>T</mi><mn>1</mn><mn>0</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>2</mn><mn>1</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>3</mn><mn>2</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>4</mn><mn>3</mn></msubsup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T_4^0 = T_1^0 \, T_2^1 \, T_3^2 \, T_4^3.
+</annotation></semantics></math></p>
+<p>Read the product as a trip: start at the table, pass through motor 1,
+then motor 2, then motor 3, then motor 4. You arrive at the stylus.</p>
+<p>The camera is the same trip plus one fixed shift, because it is
+bolted on:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>5</mn><mn>0</mn></msubsup><mo>=</mo><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>5</mn><mn>4</mn></msubsup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T_5^0 = T_4^0 \, T_5^4.
+</annotation></semantics></math></p>
+<hr />
+<h2 id="the-four-numbers-that-describe-one-motor">4. The four numbers
+that describe one motor</h2>
+<p>Denavit–Hartenberg is a checklist. For each motor you fill in four
+numbers, then a fixed recipe turns those numbers into the small
+matrix.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Plain meaning</th>
+<th>Changes when the robot moves?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></td>
+<td>how far this motor has turned</td>
+<td>yes, this is the variable</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math></td>
+<td>slide along the previous blue axis before the next frame</td>
+<td>no, it is a length from the drawing</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></td>
+<td>length of the bar to the next frame, along the next red axis</td>
+<td>no</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></td>
+<td>twist of the next blue axis relative to the previous one</td>
+<td>no, it is how the part was machined</td>
+</tr>
+</tbody>
+</table>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+is the joint angle.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+is a different angle: it is frozen in the metal. In the script,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>=</mo><mi>π</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\alpha_1 = \pi/2</annotation></semantics></math>
+because motor 2’s axis is perpendicular to motor 1’s axis. That number
+stays
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\pi/2</annotation></semantics></math>
+at every pose.</p>
+<p>The recipe, the same for every motor, is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow></mrow><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup><msub><mi>T</mi><mi>i</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>s</mi><mi>i</mi></msub><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><msub><mi>α</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mi>i</mi></msub><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><msub><mi>α</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>a</mi><mi>i</mi></msub><msub><mi>c</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mi>i</mi></msub><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><msub><mi>α</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>c</mi><mi>i</mi></msub><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><msub><mi>α</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>a</mi><mi>i</mi></msub><msub><mi>s</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><msub><mi>α</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><msub><mi>α</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>d</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+{}^{i-1}T_i =
+\begin{bmatrix}
+c_i &amp; -s_i \cos\alpha_i &amp; s_i \sin\alpha_i &amp; a_i c_i \\
+s_i &amp; c_i \cos\alpha_i &amp; -c_i \sin\alpha_i &amp; a_i s_i \\
+0 &amp; \sin\alpha_i &amp; \cos\alpha_i &amp; d_i \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>You will use this once per motor and then stop looking at it. The
+script <code>part1_problem1.py</code> is this recipe plus the
+multiplication.</p>
+<p>Filled in for our arm:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Motor</th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+(mm)</th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+(mm)</th>
+<th><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></th>
+<th>Why these constants</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">q_1</annotation></semantics></math></td>
+<td>50</td>
+<td>0</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>90</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">90^\circ</annotation></semantics></math></td>
+<td>frame {1} is 50 mm straight up the base axis; the next axis points
+toward you, a right-angle twist</td>
+</tr>
+<tr>
+<td>2</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>2</mn></msub><annotation encoding="application/x-tex">q_2</annotation></semantics></math></td>
+<td>0</td>
+<td>93</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>0</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">0^\circ</annotation></semantics></math></td>
+<td>a 93 mm bar; the next axis is parallel to this one</td>
+</tr>
+<tr>
+<td>3</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>3</mn></msub><annotation encoding="application/x-tex">q_3</annotation></semantics></math></td>
+<td>0</td>
+<td>93</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>0</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">0^\circ</annotation></semantics></math></td>
+<td>another 93 mm bar, same kind of joint</td>
+</tr>
+<tr>
+<td>4</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>4</mn></msub><annotation encoding="application/x-tex">q_4</annotation></semantics></math></td>
+<td>0</td>
+<td>50</td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>0</mn><mo>∘</mo></msup><annotation encoding="application/x-tex">0^\circ</annotation></semantics></math></td>
+<td>the 50 mm stylus bar, same kind of joint</td>
+</tr>
+</tbody>
+</table>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_1 = 0</annotation></semantics></math>
+because the base axis and the shoulder axis meet. There is no sideways
+bar between them, only the 50 mm rise, which is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mn>1</mn></msub><annotation encoding="application/x-tex">d_1</annotation></semantics></math>.</p>
+<hr />
+<h2 id="what-zero-angle-means">5. What “zero angle” means</h2>
+<p>This is the step that makes the drawing confusing.</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>i</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_i = 0</annotation></semantics></math>
+means “the red arrow of this frame is parallel to the red arrow of the
+previous frame”. It does <strong>not</strong> mean “the arm is in the
+pose of Figure 1”.</p>
+<p>Check the drawing arrow by arrow:</p>
+<ul>
+<li>Frame {0} red points right. Frame {1} red points right. They match,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_1 = 0</annotation></semantics></math>
+in the drawing.</li>
+<li>Frame {1} red points right. Frame {2} red points up. That is a
+quarter turn, so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>=</mo><msup><mn>90</mn><mo>∘</mo></msup><mo>=</mo><mi>π</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">q_2 = 90^\circ = \pi/2</annotation></semantics></math>
+in the drawing.</li>
+<li>Frame {2}, {3}, and {4} all have red pointing up. They match each
+other, so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>3</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_3 = 0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>4</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_4 = 0</annotation></semantics></math>
+in the drawing.</li>
+</ul>
+<p>Figure 1 is therefore</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mspace width="0.222em"></mspace><mi>π</mi><mi>/</mi><mn>2</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>0</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>0</mn><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q = (0,\ \pi/2,\ 0,\ 0).
+</annotation></semantics></math></p>
+<p>If you set every
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+to 0, frame {2}’s red arrow lines up with frame {1}’s red arrow, which
+points right. The arm sticks out horizontally to the right. The script
+checks the drawn pose separately, at the bottom, under
+<code>Evaluated at q = ...</code>. That block plugs in numbers. The big
+matrices above it still contain
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>,</mo><msub><mi>q</mi><mn>2</mn></msub><mo>,</mo><msub><mi>q</mi><mn>3</mn></msub><mo>,</mo><msub><mi>q</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">q_1, q_2, q_3, q_4</annotation></semantics></math>
+as unknowns.</p>
+<hr />
+<h2 id="motor-1-read-out-loud">6. Motor 1, read out loud</h2>
+<p>Put motor 1’s row into the recipe.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><msup><mn>90</mn><mo>∘</mo></msup></mrow><annotation encoding="application/x-tex">\alpha = 90^\circ</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><mi>α</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\cos\alpha = 0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">sin</mi><mo>⁡</mo></mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\sin\alpha = 1</annotation></semantics></math>.
+The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+terms vanish because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">a_1 = 0</annotation></semantics></math>.
+You get</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>1</mn><mn>0</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mn>1</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>1</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>1</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>c</mi><mn>1</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>50</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T_1^0 =
+\begin{bmatrix}
+c_1 &amp; 0 &amp; s_1 &amp; 0 \\
+s_1 &amp; 0 &amp; -c_1 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 50 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>Now set
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_1 = 0</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">c_1 = 1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">s_1 = 0</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>50</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; -1 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 50 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>Read the columns:</p>
+<ul>
+<li>Column 4 says frame {1} sits at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>50</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 0, 50)</annotation></semantics></math>
+mm. That is the 50 mm rise.</li>
+<li>Column 1 says red
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mn>1</mn></msub><annotation encoding="application/x-tex">x_1</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1, 0, 0)</annotation></semantics></math>,
+to the right. Same as the base. Good, because
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_1 = 0</annotation></semantics></math>.</li>
+<li>Column 2 says green
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mn>1</mn></msub><annotation encoding="application/x-tex">y_1</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 0, 1)</annotation></semantics></math>,
+straight up.</li>
+<li>Column 3 says blue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>z</mi><mn>1</mn></msub><annotation encoding="application/x-tex">z_1</annotation></semantics></math>
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, -1, 0)</annotation></semantics></math>.
+Base green points into the page, so negative green points toward you.
+The shoulder axis points toward you. Good.</li>
+</ul>
+<p>When
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>1</mn></msub><annotation encoding="application/x-tex">q_1</annotation></semantics></math>
+is some other angle, column 4 is still
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>50</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 0, 50)</annotation></semantics></math>.
+Motor 1 spins the arm, and frame {1} itself stays on the axis, so its
+origin does not travel. The arrows in columns 1–3 turn.</p>
+<hr />
+<h2 id="motors-2-3-and-4">7. Motors 2, 3, and 4</h2>
+<p>These three are the same kind of hinge:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\alpha = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d = 0</annotation></semantics></math>,
+and a bar of length
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>.
+The recipe collapses to</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>s</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>a</mi><mspace width="0.167em"></mspace><msub><mi>c</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mi>i</mi></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>a</mi><mspace width="0.167em"></mspace><msub><mi>s</mi><mi>i</mi></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\begin{bmatrix}
+c_i &amp; -s_i &amp; 0 &amp; a\, c_i \\
+s_i &amp; c_i &amp; 0 &amp; a\, s_i \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>Motor 2 uses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>93</mn></mrow><annotation encoding="application/x-tex">a = 93</annotation></semantics></math>
+and angle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>2</mn></msub><annotation encoding="application/x-tex">q_2</annotation></semantics></math>.
+Motor 3 uses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>93</mn></mrow><annotation encoding="application/x-tex">a = 93</annotation></semantics></math>
+and angle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>3</mn></msub><annotation encoding="application/x-tex">q_3</annotation></semantics></math>.
+Motor 4 uses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">a = 50</annotation></semantics></math>
+and angle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>4</mn></msub><annotation encoding="application/x-tex">q_4</annotation></semantics></math>.</p>
+<p>Read one of them at angle 0, say motor 4 with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>4</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_4 = 0</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>50</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 50 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>Column 4 is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>50</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(50, 0, 0)</annotation></semantics></math>
+in the previous frame. The bar lies along the previous red arrow, 50 mm
+long. Columns 1–3 are the identity, so the new arrows are parallel to
+the old ones. That is exactly what
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q = 0</annotation></semantics></math>
+was defined to mean.</p>
+<p>At a nonzero angle the bar swings in a circle in that frame’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+plane. The blue axis is unchanged (column 3 stays
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0,0,1)</annotation></semantics></math>),
+which is the statement “this motor spins about the same direction as the
+previous one”.</p>
+<hr />
+<h2 id="stacking-them-into-the-stylus-pose">8. Stacking them into the
+stylus pose</h2>
+<p>Multiply in order:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><mo>=</mo><msubsup><mi>T</mi><mn>1</mn><mn>0</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>2</mn><mn>1</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>3</mn><mn>2</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>4</mn><mn>3</mn></msubsup><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T_4^0 = T_1^0 \, T_2^1 \, T_3^2 \, T_4^3.
+</annotation></semantics></math></p>
+<p>You can let SymPy do the algebra (<code>part1_problem1.py</code>).
+Here is the reason the result looks the way it does, so the result is
+not a surprise.</p>
+<p>After motor 1, motors 2, 3, and 4 all spin about axes that point
+toward you. The whole rest of the arm bends in one plane, like three
+sticks on a sheet of paper:</p>
+<ol type="1">
+<li>Stick of 93 mm. Its direction on the paper is the angle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>2</mn></msub><annotation encoding="application/x-tex">q_2</annotation></semantics></math>.</li>
+<li>Stick of 93 mm. The elbow adds its own turn, so this stick’s
+direction is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>+</mo><msub><mi>q</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">q_2 + q_3</annotation></semantics></math>.</li>
+<li>Stick of 50 mm. The wrist adds one more turn, so this stick’s
+direction is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>+</mo><msub><mi>q</mi><mn>3</mn></msub><mo>+</mo><msub><mi>q</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">q_2 + q_3 + q_4</annotation></semantics></math>.</li>
+</ol>
+<p>On that paper, call “right” the direction of frame {1}’s red arrow
+and “up” the direction of frame {1}’s green arrow. The tip, measured on
+the paper, is the sum of the three sticks:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mtext mathvariant="normal">right</mtext></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mn>93</mn><msub><mi>c</mi><mn>2</mn></msub><mo>+</mo><mn>93</mn><msub><mi>c</mi><mn>23</mn></msub><mo>+</mo><mn>50</mn><msub><mi>c</mi><mn>234</mn></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mtext mathvariant="normal">up</mtext></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mn>93</mn><msub><mi>s</mi><mn>2</mn></msub><mo>+</mo><mn>93</mn><msub><mi>s</mi><mn>23</mn></msub><mo>+</mo><mn>50</mn><msub><mi>s</mi><mn>234</mn></msub><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+\text{right} &amp;= 93 c_2 + 93 c_{23} + 50 c_{234}, \\
+\text{up} &amp;= 93 s_2 + 93 s_{23} + 50 s_{234}.
+\end{aligned}
+</annotation></semantics></math></p>
+<p>Nothing moves out of the paper. The shoulder, elbow, and wrist axes
+are perpendicular to the paper.</p>
+<p>Motor 1 then spins that sheet around the vertical axis, and the sheet
+starts 50 mm off the table:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>o</mi><mi>x</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>c</mi><mn>1</mn></msub><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">right</mtext><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>o</mi><mi>y</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>s</mi><mn>1</mn></msub><mo>⋅</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">right</mtext><mo stretchy="false" form="postfix">)</mo><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><msub><mi>o</mi><mi>z</mi></msub></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mn>50</mn><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">up</mtext><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+o_x &amp;= c_1 \cdot (\text{right}), \\
+o_y &amp;= s_1 \cdot (\text{right}), \\
+o_z &amp;= 50 + (\text{up}).
+\end{aligned}
+</annotation></semantics></math></p>
+<p>The stylus red arrow is the direction of the last stick. On the paper
+that direction is angle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>+</mo><msub><mi>q</mi><mn>3</mn></msub><mo>+</mo><msub><mi>q</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">q_2+q_3+q_4</annotation></semantics></math>.
+After motor 1 spins the paper, the arrow in base coordinates is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>x</mi><mn>4</mn><mn>0</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mn>1</mn></msub><mspace width="0.167em"></mspace><msub><mi>c</mi><mn>234</mn></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>1</mn></msub><mspace width="0.167em"></mspace><msub><mi>c</mi><mn>234</mn></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>234</mn></msub></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+x_4^0 =
+\begin{bmatrix}
+c_1 \, c_{234} \\
+s_1 \, c_{234} \\
+s_{234}
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>The third entry,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>s</mi><mn>234</mn></msub><annotation encoding="application/x-tex">s_{234}</annotation></semantics></math>,
+is how much the stylus red arrow points upward. Horizontal stylus means
+this entry is 0. Straight up means it is 1. Problem 2 will use this
+entry and leave the other two alone.</p>
+<p>Put the arrows and the tip into one matrix and you have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_4^0</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mn>1</mn></msub><msub><mi>c</mi><mn>234</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>c</mi><mn>1</mn></msub><msub><mi>s</mi><mn>234</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>1</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>93</mn><msub><mi>c</mi><mn>2</mn></msub><mo>+</mo><mn>93</mn><msub><mi>c</mi><mn>23</mn></msub><mo>+</mo><mn>50</mn><msub><mi>c</mi><mn>234</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>1</mn></msub><msub><mi>c</mi><mn>234</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>s</mi><mn>1</mn></msub><msub><mi>s</mi><mn>234</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><msub><mi>c</mi><mn>1</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">(</mo><mn>93</mn><msub><mi>c</mi><mn>2</mn></msub><mo>+</mo><mn>93</mn><msub><mi>c</mi><mn>23</mn></msub><mo>+</mo><mn>50</mn><msub><mi>c</mi><mn>234</mn></msub><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><msub><mi>s</mi><mn>234</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><msub><mi>c</mi><mn>234</mn></msub></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>50</mn><mo>+</mo><mn>93</mn><msub><mi>s</mi><mn>2</mn></msub><mo>+</mo><mn>93</mn><msub><mi>s</mi><mn>23</mn></msub><mo>+</mo><mn>50</mn><msub><mi>s</mi><mn>234</mn></msub></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T_4^0 =
+\begin{bmatrix}
+c_1 c_{234} &amp; -c_1 s_{234} &amp; s_1 &amp; c_1(93c_2 + 93c_{23} + 50c_{234}) \\
+s_1 c_{234} &amp; -s_1 s_{234} &amp; -c_1 &amp; s_1(93c_2 + 93c_{23} + 50c_{234}) \\
+s_{234} &amp; c_{234} &amp; 0 &amp; 50 + 93s_2 + 93s_{23} + 50s_{234} \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p>Column 1 is the stylus red arrow. Column 4 is the tip. Columns 2 and
+3 are the green and blue arrows. You can ignore them until a later
+problem asks for orientation.</p>
+<hr />
+<h2 id="the-camera">9. The camera</h2>
+<p>The camera has the same arrows as the stylus. In the drawing both red
+arrows point up and both green arrows point left. So
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>5</mn><mn>4</mn></msubsup><annotation encoding="application/x-tex">T_5^4</annotation></semantics></math>
+has the identity in the arrow part: no extra rotation.</p>
+<p>The camera origin, measured in stylus coordinates:</p>
+<ul>
+<li>15 mm against the stylus red arrow. In the drawing that red arrow
+points up, and the camera is below the tip.</li>
+<li>45 mm along the stylus green arrow. In the drawing that green arrow
+points left, and the camera is to the left.</li>
+<li>0 mm along the blue arrow.</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>5</mn><mn>4</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>15</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>45</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd><mtd columnalign="center" style="text-align: center"><mn>1</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T_5^4 =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; -15 \\
+0 &amp; 1 &amp; 0 &amp; 45 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}.
+</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>T</mi><mn>5</mn><mn>0</mn></msubsup><mo>=</mo><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><mspace width="0.167em"></mspace><msubsup><mi>T</mi><mn>5</mn><mn>4</mn></msubsup></mrow><annotation encoding="application/x-tex">T_5^0 = T_4^0 \, T_5^4</annotation></semantics></math>
+keeps the arrows and moves the origin by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>15</mn></mrow><annotation encoding="application/x-tex">-15</annotation></semantics></math>
+times column 1 plus
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>45</mn><annotation encoding="application/x-tex">45</annotation></semantics></math>
+times column 2. The 50 mm stylus bar and the 15 mm backstep combine,
+which is why the camera position contains a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>35</mn><annotation encoding="application/x-tex">35</annotation></semantics></math>
+where the stylus position contains a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>50</mn><annotation encoding="application/x-tex">50</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mspace width="0.167em"></mspace><msub><mi>c</mi><mn>234</mn></msub><mo>−</mo><mn>15</mn><mspace width="0.167em"></mspace><msub><mi>c</mi><mn>234</mn></msub><mo>=</mo><mn>35</mn><mspace width="0.167em"></mspace><msub><mi>c</mi><mn>234</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+50\, c_{234} - 15\, c_{234} = 35\, c_{234}.
+</annotation></semantics></math></p>
+<hr />
+<h2 id="check-it-on-the-drawing">10. Check it on the drawing</h2>
+<p>Plug in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_1 = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>=</mo><mi>π</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">q_2 = \pi/2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>3</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_3 = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>4</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">q_4 = 0</annotation></semantics></math>.</p>
+<p>Then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>2</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">c_2 = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>2</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">s_2 = 1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>23</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">c_{23} = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>23</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">s_{23} = 1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>234</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">c_{234} = 0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>234</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">s_{234} = 1</annotation></semantics></math>.</p>
+<p>The “right” distance on the paper is 0, because every stick is
+vertical. The “up” distance is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93</mn><mo>+</mo><mn>93</mn><mo>+</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">93 + 93 + 50</annotation></semantics></math>.
+Add the 50 mm base:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>o</mi><mn>4</mn><mn>0</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>286</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> mm</mtext></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+o_4^0 = \begin{bmatrix} 0 \\ 0 \\ 286 \end{bmatrix} \text{ mm}.
+</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>286</mn><mo>=</mo><mn>50</mn><mo>+</mo><mn>93</mn><mo>+</mo><mn>93</mn><mo>+</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">286 = 50 + 93 + 93 + 50</annotation></semantics></math>.
+That is the four lengths in the drawing, stacked. The stylus red arrow
+is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(0, 0, 1)</annotation></semantics></math>,
+straight up, which is what the drawing shows.</p>
+<p>The camera is 45 mm to the left and 15 mm below that tip:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>o</mi><mn>5</mn><mn>0</mn></msubsup><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mtable><mtr><mtd columnalign="center" style="text-align: center"><mi>−</mi><mn>45</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>0</mn></mtd></mtr><mtr><mtd columnalign="center" style="text-align: center"><mn>271</mn></mtd></mtr></mtable><mo stretchy="true" form="postfix">]</mo></mrow><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> mm</mtext></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+o_5^0 = \begin{bmatrix} -45 \\ 0 \\ 271 \end{bmatrix} \text{ mm}.
+</annotation></semantics></math></p>
+<p>Run the script and compare the last two printed matrices with
+this:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> assignment/part1_problem1.py</span></code></pre></div>
+<p>The matrices named
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_4^0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>5</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_5^0</annotation></semantics></math>
+are the formulas of sections 8 and 9. The two matrices under
+<code>Evaluated at q = (0, pi/2, 0, 0)</code> are this check. Stylus
+height 286, camera at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>−</mi><mn>45</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>271</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(-45, 0, 271)</annotation></semantics></math>.</p>
+<p>If you change <code>d1</code>, <code>a2</code>, <code>a3</code>, or
+<code>a4</code> at the top of the script and run it again, those
+formulas are rebuilt from the recipe. The joint angles in the formulas
+stay symbols.</p>
+<hr />
+<h2 id="problem-2-is-the-return-trip">11. Problem 2 is the return
+trip</h2>
+<p>Problem 1 says: angles in, tip and stylus direction out.</p>
+<p>Problem 2 says: I will give you the tip
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>o</mi><mi>x</mi></msub><mo>,</mo><msub><mi>o</mi><mi>y</mi></msub><mo>,</mo><msub><mi>o</mi><mi>z</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(o_x, o_y, o_z)</annotation></semantics></math>,
+and I will give you only the upward part of the stylus red arrow,</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>z</mi></msub><mo>=</mo><msub><mi>s</mi><mn>234</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+x_z = s_{234}.
+</annotation></semantics></math></p>
+<p>Give me the four angles.</p>
+<p>Four numbers in, four angles out. The catch is that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>z</mi></msub><annotation encoding="application/x-tex">x_z</annotation></semantics></math>
+is a sine. A sine does not tell you the angle uniquely, and the elbow
+can bend two ways. Several angle sets can put the tip in the same place
+with the same steepness.</p>
+<p>Do the forward trip backwards.</p>
+<h3 id="step-a.-motor-1-from-the-shadow-of-the-tip">Step A. Motor 1,
+from the shadow of the tip</h3>
+<p>Look down from above. The tip’s shadow is at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>o</mi><mi>x</mi></msub><mo>,</mo><msub><mi>o</mi><mi>y</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(o_x, o_y)</annotation></semantics></math>.
+Its distance from the base axis is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><msqrt><mrow><msubsup><mi>o</mi><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>o</mi><mi>y</mi><mn>2</mn></msubsup></mrow></msqrt><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\rho = \sqrt{o_x^2 + o_y^2}.
+</annotation></semantics></math></p>
+<p>The base motor yaw that points the arm toward that shadow is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>o</mi><mi>y</mi></msub><mo>,</mo><msub><mi>o</mi><mi>x</mi></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_1 = \operatorname{atan2}(o_y, o_x).
+</annotation></semantics></math></p>
+<p><code>atan2(y, x)</code> is the compass angle of the point
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math>,
+with the quadrants handled. Plain <code>atan(y/x)</code> gets the
+quadrants wrong.</p>
+<p>There is a second possibility. The arm can approach the same shadow
+from the opposite direction, with the horizontal reach counted as
+negative. Then</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>1</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>o</mi><mi>y</mi></msub><mo>,</mo><msub><mi>o</mi><mi>x</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>π</mi><mo>,</mo><mspace width="2.0em"></mspace><mi>R</mi><mo>=</mo><mi>−</mi><mi>ρ</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_1 = \operatorname{atan2}(o_y, o_x) + \pi, \qquad R = -\rho.
+</annotation></semantics></math></p>
+<p>Call the sign of that reach
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\delta = +1</annotation></semantics></math>
+is “reach toward the shadow”.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\delta = -1</annotation></semantics></math>
+is “reach the shadow from the opposite side”. Both are legal. The script
+tries both.</p>
+<h3 id="step-b.-how-steep-the-stylus-is">Step B. How steep the stylus
+is</h3>
+<p>We were given
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>234</mn></msub><mo>=</mo><msub><mi>x</mi><mi>z</mi></msub></mrow><annotation encoding="application/x-tex">s_{234} = x_z</annotation></semantics></math>.
+Then</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>234</mn></msub><mo>=</mo><mi>σ</mi><msqrt><mrow><mn>1</mn><mo>−</mo><msubsup><mi>x</mi><mi>z</mi><mn>2</mn></msubsup></mrow></msqrt><mo>,</mo><mspace width="1.0em"></mspace><mi>σ</mi><mo>=</mo><mi>±</mi><mn>1</mn><mo>,</mo></mrow><annotation encoding="application/x-tex">
+c_{234} = \sigma \sqrt{1 - x_z^2}, \quad \sigma = \pm 1,
+</annotation></semantics></math></p>
+<p>and the total bend of the three sticks is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϕ</mi><mo>=</mo><msub><mi>q</mi><mn>2</mn></msub><mo>+</mo><msub><mi>q</mi><mn>3</mn></msub><mo>+</mo><msub><mi>q</mi><mn>4</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>x</mi><mi>z</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><msub><mi>c</mi><mn>234</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\phi = q_2 + q_3 + q_4 = \operatorname{atan2}(x_z,\ c_{234}).
+</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo>=</mo><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\sigma = +1</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo>=</mo><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\sigma = -1</annotation></semantics></math>
+are two different stylus directions that share the same upward
+component. The assignment allows this, because it told us to match only
+the last entry of the red arrow. A horizontal stylus has
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>z</mi></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x_z = 0</annotation></semantics></math>,
+so
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math>
+is either
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>:
+pointing outward, or pointing back the way it came.</p>
+<h3 id="step-c.-walk-back-along-the-last-stick">Step C. Walk back along
+the last stick</h3>
+<p>The last stick is 50 mm long at angle
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math>.
+The wrist (frame {3}) is that stick subtracted from the tip.</p>
+<p>On the paper from section 8:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>u</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><mi>R</mi><mo>−</mo><mn>50</mn><mspace width="0.167em"></mspace><msub><mi>c</mi><mn>234</mn></msub><mo>,</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>v</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>=</mo><msub><mi>o</mi><mi>z</mi></msub><mo>−</mo><mn>50</mn><mo>−</mo><mn>50</mn><mspace width="0.167em"></mspace><msub><mi>x</mi><mi>z</mi></msub><mi>.</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+u &amp;= R - 50\, c_{234}, \\
+v &amp;= o_z - 50 - 50\, x_z.
+\end{aligned}
+</annotation></semantics></math></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+is the horizontal distance from the shoulder axis to the wrist.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+is the wrist height above the shoulder. The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>50</mn></mrow><annotation encoding="application/x-tex">-50</annotation></semantics></math>
+in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+removes the base pedestal, so the two 93 mm sticks are measured from
+motor 2, where they actually start.</p>
+<h3 id="step-d.-two-sticks-of-93-mm">Step D. Two sticks of 93 mm</h3>
+<p>You now have a point
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math>
+and two bars of length 93 mm. This is the standard elbow problem.</p>
+<p>The angle inside the elbow comes from the law of cosines. Distance
+from shoulder to wrist, squared, equals
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>93</mn><mn>2</mn></msup><mo>+</mo><msup><mn>93</mn><mn>2</mn></msup><mo>+</mo><mn>2</mn><mo>⋅</mo><mn>93</mn><mo>⋅</mo><mn>93</mn><mo>⋅</mo><mrow><mi mathvariant="normal">cos</mi><mo>⁡</mo></mrow><msub><mi>q</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">93^2 + 93^2 + 2\cdot 93\cdot 93\cdot\cos q_3</annotation></semantics></math>,
+rearranged:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mn>3</mn></msub><mo>=</mo><mfrac><mrow><msup><mi>u</mi><mn>2</mn></msup><mo>+</mo><msup><mi>v</mi><mn>2</mn></msup><mo>−</mo><mn>2</mn><mo>⋅</mo><msup><mn>93</mn><mn>2</mn></msup></mrow><mrow><mn>2</mn><mo>⋅</mo><msup><mn>93</mn><mn>2</mn></msup></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+c_3 = \frac{u^2 + v^2 - 2\cdot 93^2}{2\cdot 93^2}.
+</annotation></semantics></math></p>
+<p>If this comes out bigger than 1 or smaller than
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math>,
+the wrist is farther away than the two bars can reach, or too close.
+That branch is impossible. Skip it.</p>
+<p>The sine still has a sign choice, the elbow bend:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>s</mi><mn>3</mn></msub><mo>=</mo><mi>ε</mi><msqrt><mrow><mn>1</mn><mo>−</mo><msubsup><mi>c</mi><mn>3</mn><mn>2</mn></msubsup></mrow></msqrt><mo>,</mo><mspace width="1.0em"></mspace><mi>ε</mi><mo>=</mo><mi>±</mi><mn>1</mn><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>q</mi><mn>3</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>s</mi><mn>3</mn></msub><mo>,</mo><mspace width="0.222em"></mspace><msub><mi>c</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+s_3 = \varepsilon \sqrt{1 - c_3^2}, \quad \varepsilon = \pm 1,
+\qquad
+q_3 = \operatorname{atan2}(s_3,\ c_3).
+</annotation></semantics></math></p>
+<p>One sign bends the elbow one way, the other sign bends it the other
+way. Both put the wrist on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>v</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u, v)</annotation></semantics></math>
+when they are reachable.</p>
+<p>The shoulder angle points the first bar so that the second bar lands
+on the wrist:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>v</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>u</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>s</mi><mn>3</mn></msub><mo>,</mo><mspace width="0.222em"></mspace><mn>1</mn><mo>+</mo><msub><mi>c</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_2 = \operatorname{atan2}(v,\ u) - \operatorname{atan2}(s_3,\ 1 + c_3).
+</annotation></semantics></math></p>
+<p>The second <code>atan2</code> is half of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>q</mi><mn>3</mn></msub><annotation encoding="application/x-tex">q_3</annotation></semantics></math>.
+That shortcut exists because the two bars have the same length. The
+script keeps the version that also works if you later change
+<code>a2</code> and <code>a3</code> to different numbers:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>2</mn></msub><mo>=</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mi>v</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>u</mi><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mrow><mi mathvariant="normal">atan2</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>a</mi><mn>3</mn></msub><msub><mi>s</mi><mn>3</mn></msub><mo>,</mo><mspace width="0.222em"></mspace><msub><mi>a</mi><mn>2</mn></msub><mo>+</mo><msub><mi>a</mi><mn>3</mn></msub><msub><mi>c</mi><mn>3</mn></msub><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_2 = \operatorname{atan2}(v,\ u) - \operatorname{atan2}(a_3 s_3,\ a_2 + a_3 c_3).
+</annotation></semantics></math></p>
+<h3 id="step-e.-whatever-is-left-is-the-wrist-motor">Step E. Whatever is
+left is the wrist motor</h3>
+<p>The three bends must add up to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ϕ</mi><annotation encoding="application/x-tex">\phi</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mn>4</mn></msub><mo>=</mo><mi>ϕ</mi><mo>−</mo><msub><mi>q</mi><mn>2</mn></msub><mo>−</mo><msub><mi>q</mi><mn>3</mn></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+q_4 = \phi - q_2 - q_3.
+</annotation></semantics></math></p>
+<p>Done. One combination of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>δ</mi><mo>,</mo><mi>σ</mi><mo>,</mo><mi>ε</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\delta, \sigma, \varepsilon)</annotation></semantics></math>
+has produced one joint vector
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>q</mi><mn>1</mn></msub><mo>,</mo><msub><mi>q</mi><mn>2</mn></msub><mo>,</mo><msub><mi>q</mi><mn>3</mn></msub><mo>,</mo><msub><mi>q</mi><mn>4</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(q_1, q_2, q_3, q_4)</annotation></semantics></math>.</p>
+<hr />
+<h2 id="why-the-script-prints-several-rows">12. Why the script prints
+several rows</h2>
+<p>There are three independent sign choices, each
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>±</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm 1</annotation></semantics></math>:</p>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>What it decides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math></td>
+<td>base motor toward the tip, or a half turn the other way</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>σ</mi><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></td>
+<td>which way the stylus cosine goes</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></td>
+<td>which way the elbow bends</td>
+</tr>
+</tbody>
+</table>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn><mo>×</mo><mn>2</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">2 \times 2 \times 2 = 8</annotation></semantics></math>
+candidates. Any candidate whose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>3</mn></msub><annotation encoding="application/x-tex">c_3</annotation></semantics></math>
+is outside
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mn>1</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-1, 1]</annotation></semantics></math>
+is dropped.</p>
+<p>Run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> assignment/part1_problem2.py</span></code></pre></div>
+<p>The script takes <code>q_example</code> at the top, runs Problem 1
+forward, and prints the tip and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>z</mi></msub><annotation encoding="application/x-tex">x_z</annotation></semantics></math>
+that those angles produce. Then it prints every inverse branch that gets
+back to that same tip and the same
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>x</mi><mi>z</mi></msub><annotation encoding="application/x-tex">x_z</annotation></semantics></math>.</p>
+<p>For the default <code>q_example = (0.4, 0.6, -0.5, 0.3)</code>
+radians, which is about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><msup><mn>23</mn><mo>∘</mo></msup><mo>,</mo><mspace width="0.222em"></mspace><msup><mn>34</mn><mo>∘</mo></msup><mo>,</mo><mspace width="0.222em"></mspace><mo>−</mo><msup><mn>29</mn><mo>∘</mo></msup><mo>,</mo><mspace width="0.222em"></mspace><msup><mn>17</mn><mo>∘</mo></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(23^\circ,\ 34^\circ,\ -29^\circ,\ 17^\circ)</annotation></semantics></math>,
+four branches are reachable. One of the four is that same angle set. The
+other three are different motor angles that put the pen on the same
+point with the same steepness.</p>
+<p>Change <code>q_example</code>, run again, and watch which row matches
+your input. That is the whole check: forward, then backward, and one of
+the backward answers must be the angles you started with.</p>
+<hr />
+<h2 id="how-the-files-fit-together">13. How the files fit together</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kinematics_explained.md</code></td>
+<td>this walkthrough</td>
+</tr>
+<tr>
+<td><code>part1_problem1.md</code></td>
+<td>the same forward kinematics, written as a solution</td>
+</tr>
+<tr>
+<td><code>part1_problem1.py</code></td>
+<td>builds
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>4</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_4^0</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>T</mi><mn>5</mn><mn>0</mn></msubsup><annotation encoding="application/x-tex">T_5^0</annotation></semantics></math>
+from the lengths you type</td>
+</tr>
+<tr>
+<td><code>part1_problem2.md</code></td>
+<td>the same inverse kinematics, written as a solution</td>
+</tr>
+<tr>
+<td><code>part1_problem2.py</code></td>
+<td>turns a tip and a tilt back into joint angles</td>
+</tr>
+</tbody>
+</table>
+<p>Change a length in <code>part1_problem1.py</code> only. Problem 2
+imports those lengths, so the inverse stays consistent with the forward
+map.</p>
+</body>
+</html>

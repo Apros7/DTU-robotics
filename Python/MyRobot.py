@@ -23,6 +23,19 @@ def sind(x_deg):  # sin with degrees
     return math.sin(math.radians(x_deg))
 
 
+DEVICE_FILE = os.path.join(currentdir, "device_name.txt")
+
+
+def load_device_name(default):
+    """Port written by find_device.py. Falls back to the class default."""
+    try:
+        with open(DEVICE_FILE, encoding="utf-8") as handle:
+            name = handle.read().strip()
+    except OSError:
+        return default
+    return name or default
+
+
 class MyRobot:
     # ----------------------------- Constants (AX-12A) -------------------------
     ADDR_MX_TORQUE_ENABLE = 24       # 1 byte
@@ -73,7 +86,10 @@ class MyRobot:
 
         # --- SDK setup ---
         try:
-            self.port_handler = PortHandler(self.DEVICENAME)
+            device_name = load_device_name(self.DEVICENAME)
+            self.DEVICENAME = device_name
+            print(f"Opening port {device_name}")
+            self.port_handler = PortHandler(device_name)
             self.packet_handler = PacketHandler(self.PROTOCOL_VERSION)
 
             if self.port_handler.openPort():
@@ -88,11 +104,11 @@ class MyRobot:
                 print("Failed to change the baudrate! Reconnect Robot.")
                 raise RuntimeError("setBaudRate failed")
 
-            # Initialize defaults
+            # Torque has to be on before the home move, or move_j waits forever.
             self.set_speed(self.motor_speed, overwrite_speeds=True)
             self.set_torque_limit(self.motor_torque)
-            self.move_j(0, 0, 0, 0)
             self.enable_motors()
+            self.move_j(0, 0, 0, 0)
             self.init_status = 1
 
         except Exception as e:
@@ -303,9 +319,8 @@ class MyRobot:
 # Example 1:
 # Demonstrates how to move the robot joints into desired joint positions [degrees]
 # You might need to adjust the offsets in the code above to make the zero point suit your needs.
-# Just comment out the code snippet, input desired joint angles in robot.move_j() and run.
-'''
-if __name__ == "__main__":
+# Run: python MyRobot.py 1
+def example_1():
     robot = MyRobot()
     if robot.init_status:
         try:
@@ -326,17 +341,12 @@ if __name__ == "__main__":
         finally:
             pass
             #robot.disable_motors()
-'''
-#Example 2:
-#Demonstrates how to move the robot joints into desired a list of joint positions [degrees]
-#You might need to adjust the offsets in the code above to make the zero point suit your needs.
-#Just comment out the code snippet, input desired joint angle sequence in robot.move_j() and run.
 
-'''
-if __name__ == "__main__":
-    import time
-    import numpy as np
-
+# Example 2:
+# Demonstrates how to move the robot joints into desired a list of joint positions [degrees]
+# You might need to adjust the offsets in the code above to make the zero point suit your needs.
+# Run: python MyRobot.py 2
+def example_2():
     # Create robot instance
     robot = MyRobot()
 
@@ -413,4 +423,12 @@ if __name__ == "__main__":
         finally:
             robot.disable_motors()
             print("\nMotors disabled. Program finished.")
-'''
+
+
+if __name__ == "__main__":
+    examples = {"1": example_1, "2": example_2}
+    choice = sys.argv[1] if len(sys.argv) == 2 else ""
+    if choice not in examples:
+        print("Usage: python MyRobot.py 1|2", file=sys.stderr)
+        raise SystemExit(2)
+    examples[choice]()
