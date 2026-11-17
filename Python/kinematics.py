@@ -1,7 +1,7 @@
 """Robot model: Problems 1, 2 and 6 from solutions_pratyush.ipynb as plain numpy functions."""
 import numpy as np
 
-d1, a2, a3, a4 = 50.0, 93.0, 93.0, 50.0        # [mm] measure the real robot (Hint 1)
+d1, a2, a3, a4 = 50.0, 93.0, 93.0, 45.0        # [mm] measure the real robot (Hint 1)
 
 
 def dh_transformation(theta, d, a, alpha):

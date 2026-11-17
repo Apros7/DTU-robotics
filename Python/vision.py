@@ -12,7 +12,7 @@ from scipy.ndimage import uniform_filter1d
 from skimage.morphology import skeletonize
 from kinematics import fk
 
-CAM_INDEX = 0                               # try 1, 2 ... if 0 is the laptop webcam
+CAM_INDEX = 0                              # try 1, 2 ... if 0 is the laptop webcam
 PATTERN, SQUARE_MM = (9, 6), 25.0           # chessboard: inner corners, square size (measure your print)
 INTRINSICS = Path(__file__).with_name("camera_intrinsics.npz")
 

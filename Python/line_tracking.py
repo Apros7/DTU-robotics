@@ -19,11 +19,11 @@ from MyRobot import MyRobot
 
 JOINT_SIGN = np.array([1, 1, 1, 1])         # model angle -> motor angle, flip a joint with -1
 SCAN_X, SCAN_Y = (100, 200), (-90, 90)      # [mm] area of the page that holds the line (inside the paper!)
-LOOK_XY = [(x, y) for x in (125, 175) for y in (-60, 0, 60)]   # camera positions for the pictures (Hint 2)
-LOOK_Z = 90.0                               # tip height [mm, base frame] while the camera looks straight down
+LOOK_XY = [(150, 0)]                        # one picture, centred on the page  
+LOOK_Z = 120.0                               # tip height [mm, base frame] while the camera looks straight down
 PITCH = 60.0                                # stylus angle below horizontal while drawing [deg]
-PRESS, LIFT = 1.0, 20.0                     # [mm] tip below the paper while drawing / above it before and after
-SPEED, RATE = 15.0, 25.0                    # peak tip speed [mm/s], set-points per second
+PRESS, LIFT = -1.5, 60.0                     # [mm] tip below the paper while drawing / above it before and after
+SPEED, RATE = 100.0, 25.0                    # peak tip speed [mm/s], set-points per second
 EXTRINSICS = Path(__file__).with_name("camera_extrinsics.npz")
 R31 = -np.sin(np.radians(PITCH))            # x_4z for the drawing pose
 
@@ -49,15 +49,24 @@ def check(robot):
     print("tip should be at (150, 32, 120) mm, stylus horizontal. FK of measured angles:", fk(read(robot))[:3, 3].round(1))
     input("Measure it, then Enter ")
 
+def jog(robot, p):
+    """Move the tip with the keyboard: 'x 5', 'y -2', 'z -1' [mm]. Empty line = the tip touches the dot."""
+    move(robot, inverse_kinematics(p, R31))
+    while cmd := input(f"tip at {np.round(p, 1)} mm, move (e.g. z -5), Enter = done > ").split():
+        try:
+            p_new = p + float(cmd[1]) * np.eye(3)["xyz".index(cmd[0])]
+            move(robot, inverse_kinematics(p_new, R31))
+            p = p_new
+        except (ValueError, IndexError) as e:
+            print("  ", e)
+    return p
 
 def calibrate(robot, cap):
     """Table height, camera roll and camera offset from one black dot on white paper."""
-    input("HOLD THE ARM, then Enter (motors go limp) ")
-    for i in robot.motor_ids:
-        robot._write1(i, robot.ADDR_MX_TORQUE_ENABLE, 0)
-    input("Put the stylus tip on the centre of the dot, then Enter ")
-    dot = fk(read(robot))[:3, 3]                                # FK of the measured angles
-    input("Lift the tip off the paper, then Enter (motors come back on) ")
+    p = jog(robot, np.array([150.0, 0.0, 40.0]))                # start 40 mm up, then jog onto the dot
+    dot = fk(read(robot))[:3, 3]                                # FK of the measured angles = where the tip really is
+    print(f"commanded tip height {p[2]:.1f} mm, measured {dot[2]:.1f} mm (difference = sag under load)")
+    move(robot, inverse_kinematics(dot + [0, 0, LIFT], R31))   # lift off the paper
     cal = dict(np.load(vision.INTRINSICS), offset=np.array([-15.0, 45.0, 0.0]), z_table=dot[2])
     img, q = look(robot, cap, dot[:2] + 20)                     # dot off-centre in the picture
     uv = vision.dot_centre(vision.segment(img))
@@ -68,7 +77,7 @@ def calibrate(robot, cap):
     cal["offset"][1:] += (fk(q)[:3, :3].T @ [*err[cal["roll"]], 0])[1:]   # the rest is sideways camera offset
     print("dot error per roll [mm]:", {k: round(float(np.linalg.norm(e)), 1) for k, e in err.items()})
     print(f"dot at {dot.round(1)}, roll = {cal['roll']}, camera offset in frame 4 = {cal['offset'].round(1)}")
-    np.savez(EXTRINSICS, roll=cal["roll"], offset=cal["offset"], z_table=cal["z_table"])
+    np.savez(EXTRINSICS, roll=cal["roll"], offset=cal["offset"], z_table=cal["z_table"], z_draw=p[2])
 
 
 def scan(robot, cap, cal):
@@ -91,7 +100,7 @@ def plan(path, cal):
     t = np.arange(0, T + 1 / RATE, 1 / RATE)
     st = np.polyval(quintic_coeffs(0, s[-1], 0, 0, 0, 0, T)[::-1], t)           # s(t): rest to rest
     X = np.column_stack([np.interp(st, s, path[:, 0]), np.interp(st, s, path[:, 1]),
-                         np.full(len(t), cal["z_table"] - PRESS)])
+                         np.full(len(t), cal["z_draw"] - PRESS)])
     return X, np.array([inverse_kinematics(x, R31) for x in X])
 
 
@@ -125,6 +134,9 @@ def plot(path, ink, actual=None):
 if __name__ == "__main__":
     mode = sys.argv[1]
     robot, cap = MyRobot(), cv2.VideoCapture(vision.CAM_INDEX)
+    for i in robot.motor_ids:                   # stiffer servos: compliance margin 0, slope 16 (AX-12 manual)
+        for addr, value in ((26, 0), (27, 0), (28, 16), (29, 16)):
+            robot._write1(i, addr, value)
     try:
         if mode == "check":
             check(robot)

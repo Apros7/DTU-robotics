@@ -331,7 +331,7 @@ def example_1():
 
 
             # Example motions:
-            robot.move_j(-12.02, -7.99, -95.76, 13.75) #Degrees
+            robot.move_j(0, 0, -90, -90) #Degrees
 
             robot.record_configuration()
 
